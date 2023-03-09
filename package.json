@@ -1,0 +1,19 @@
+{
+  "name": "http_films",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "prestart": "npm run build",
+    "start": "node dist/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "http": "^0.0.1-security"
+  },
+  "devDependencies": {
+    "@types/node": "^18.14.6"
+  }
+}
