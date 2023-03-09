@@ -28,6 +28,6 @@
     },
     "ignorePatterns": [
         "src/**/*.test.ts",
-        "src/frontend/generated/*"
+        "data/"
     ]
 }
