@@ -1,8 +1,12 @@
 import { createServer } from 'http';
+import { config } from 'dotenv';
 
-const PORT = 3000;
+
+config();
+
+const PORT = process.env.APP_PORT;
 const server = createServer();
 
 server.on('request', (req, res) => { res.end("hello") });
 
-server.listen(PORT, () => console.log(`running on Port ${PORT}`));
+server.listen(PORT, () => console.log(`running on port ${PORT}`));
