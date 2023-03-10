@@ -24,9 +24,6 @@ export class Application {
         this.regExpRoutes = [...this.regExpRoutes, ...regExpRoutes];
 
         this.stringRoutes = new Map([...this.stringRoutes.entries(), ...stringRoutes]);
-
-        console.log(this.stringRoutes);
-        console.log(this.regExpRoutes);
     }
 
     private _createServer() {
@@ -64,6 +61,9 @@ export class Application {
     }
 
     listen(port: number, callback: () => void) {
+        console.log(this.stringRoutes);
+        console.log(this.regExpRoutes);
+
         this.server.listen(port, callback);
     }
 }
