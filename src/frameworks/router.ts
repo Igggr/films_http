@@ -1,20 +1,5 @@
-import { IncomingMessage, RequestListener, ServerResponse } from "http";
+import { Route, HttpMethod, EndPoint, Handler, ValidationError } from "./type-helpers";
 
-export type Handler = RequestListener<typeof IncomingMessage, typeof ServerResponse>;
-
-// HEAD, OPTIONS, TRACE поддерживать не будем
-export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
-type EndPoint = string | RegExp;
-
-export type Route = {
-    method: HttpMethod;
-    endPoint: EndPoint;   
-    handler: Handler;
-} 
-
-class ValidationError extends Error { } 
-
-export type Req =  IncomingMessage & { id: string };
 export class Router {
     public routes: Route[] = [];
     

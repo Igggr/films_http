@@ -1,11 +1,12 @@
-import { Req, Router } from "../frameworks/router";
+import { Router } from "../frameworks/router";
+import * as GenreController from "../controller/genre-controller";
 
 const genreRouter = new Router();
 
-genreRouter.post('/genres', (req, res) => { res.end('Creating genre'); });
-genreRouter.get('/genres', (req, res) => { res.end('Info about all genres'); });
-genreRouter.get(/genres\/(\d*)/, (req, res) => { res.end(`Info about specific genre ${(req as Req).id}`); });
-genreRouter.patch(/genres\/(\d*)/, (req, res) => { res.end(`Updating genre ${(req as Req).id}`); });
-genreRouter.delete(/genres\/(\d*)/, (req, res) => { res.end(`Deleting genre ${(req as Req).id}`); });
+genreRouter.post('/genres', GenreController.create);
+genreRouter.get('/genres', GenreController.getAll);
+genreRouter.get(/genres\/(\d*)/, GenreController.getOne);
+genreRouter.patch(/genres\/(\d*)/, GenreController.updateOne);
+genreRouter.delete(/genres\/(\d*)/, GenreController.deleteOne);
 
 export { genreRouter };

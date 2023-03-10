@@ -1,11 +1,12 @@
-import { Req, Router } from "../frameworks/router";
+import { Router } from "../frameworks/router";
+import * as FilmController from "../controller/film-controller";
 
 const filmRouter = new Router();
 
-filmRouter.post('/films', (req, res) => { res.end('Creating film'); });
-filmRouter.get('/films', (req, res) => { res.end('Info about all films'); });
-filmRouter.get(/films\/(\d*)/, (req, res) => { res.end(`Info about specific film ${(req as Req).id}`); });
-filmRouter.patch(/films\/(\d*)/, (req, res) => { res.end(`Updating film ${(req as Req).id}`); });
-filmRouter.delete(/films\/(\d*)/, (req, res) => { res.end(`Deleting film ${(req as Req).id}`); });
+filmRouter.post('/films', FilmController.create);
+filmRouter.get('/films', FilmController.getAll);
+filmRouter.get(/films\/(\d*)/, FilmController.getOne);
+filmRouter.patch(/films\/(\d*)/, FilmController.updateOne);
+filmRouter.delete(/films\/(\d*)/, FilmController.deleteOne);
 
 export { filmRouter };
