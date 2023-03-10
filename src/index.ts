@@ -1,12 +1,15 @@
 import { createServer } from 'http';
 import { config } from 'dotenv';
+import { Application } from './frameworks/applications';
+import { filmRouter } from './router/film-router';
 
 
 config();
 
-const PORT = process.env.APP_PORT;
-const server = createServer();
+const PORT = +(process.env.APP_PORT ?? 5000);
 
-server.on('request', (req, res) => { res.end("hello"); });
+const app = new Application();
 
-server.listen(PORT, () => console.log(`running on port ${PORT}`));
+app.addRouter(filmRouter);
+
+app.listen(PORT, () => console.log(`running on port ${PORT}`));
