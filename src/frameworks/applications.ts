@@ -1,6 +1,6 @@
 import { createServer, IncomingMessage, Server, ServerResponse } from 'http';
 import { Router } from "./router";
-import { Route, HttpMethod, Handler, Req } from "./type-helpers";
+import { Route, HttpMethod, Handler } from "./type-helpers";
 
 
 export class Application {
@@ -29,6 +29,7 @@ export class Application {
 
     private _createServer() {
         return createServer((req, res) => {
+
             res.writeHead(200, {
                 'Content-Type': 'application/json'
             });
@@ -58,7 +59,8 @@ export class Application {
                 return (req, res) => {
                     const mathces = (route.endPoint as RegExp).exec(url);
                     const id = mathces?.[1];
-                    return route.handler({ ...req, id } as Req, res);
+                    (req as any).id = id;
+                    return route.handler(req, res);
                 };
             }
         }

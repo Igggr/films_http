@@ -1,9 +1,13 @@
 import { IncomingMessage } from "http";
 import { Req, Res } from "../frameworks/type-helpers";
+import { getReqData } from "../frameworks/utils";
 
 
 export async function create(req: IncomingMessage, res: Res) {
-    res.end('Creating film'); 
+    res.write('Creating film');
+    const body = await getReqData(req);
+    console.log(body);
+    res.end();
 }
 
 export async function getAll(req: IncomingMessage, res: Res) {
@@ -17,7 +21,10 @@ export async function getOne(req: IncomingMessage, res: Res) {
 
 export async function updateOne(req: IncomingMessage, res: Res) {
     const id = (req as Req).id;
-    res.end(`Updating film ${id}`);
+    res.write(`Updating film ${id}`);
+    const body = await getReqData(req);
+    console.log(body);
+    res.end();
 }
 
 export async function deleteOne(req: IncomingMessage, res: Res) {
