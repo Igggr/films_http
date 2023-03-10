@@ -1,5 +1,5 @@
 import { createServer, IncomingMessage, Server, ServerResponse } from 'http';
-import { Router, Route, HttpMethod, Handler } from "./router";
+import { Router, Route, HttpMethod, Handler, Req } from "./router";
 
 
 export class Application {
@@ -54,7 +54,11 @@ export class Application {
         }
         for (const route of this.regExpRoutes) {
             if (route.method === method && (route.endPoint as RegExp).test(url)) {
-                return route.handler;
+                return (req, res) => {
+                    const mathces = (route.endPoint as RegExp).exec(url);
+                    const id = mathces?.[1];
+                    return route.handler({ ...req, id } as Req, res);
+                };
             }
         }
         return;

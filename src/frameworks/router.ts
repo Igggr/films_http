@@ -14,7 +14,7 @@ export type Route = {
 
 class ValidationError extends Error { } 
 
-
+export type Req =  IncomingMessage & { id: string };
 export class Router {
     public routes: Route[] = [];
     
