@@ -14,8 +14,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/pg": "^8.6.6",
     "dotenv": "^16.0.3",
-    "http": "^0.0.1-security"
+    "http": "^0.0.1-security",
+    "pg": "^8.10.0"
   },
   "devDependencies": {
     "@types/node": "^18.14.6",

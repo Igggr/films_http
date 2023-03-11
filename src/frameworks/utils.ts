@@ -1,7 +1,7 @@
 import { IncomingMessage } from "http";
 
 
-export function getReqData(req: IncomingMessage): Promise<Record<string, string>> {
+export function getReqData(req: IncomingMessage): Promise<Record<string, any>> {
     return new Promise((resolve, reject) => {
         try {
             let body = "";
