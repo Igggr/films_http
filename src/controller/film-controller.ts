@@ -3,13 +3,24 @@ import { Req, Res } from "../frameworks/type-helpers";
 import { getReqData } from "../frameworks/utils";
 import { pool } from "../db";
 
+const SELECT = `\
+    SELECT film.id, film.title, film.year, json_agg(genre.name) AS genres \
+        FROM film \
+        LEFT JOIN film_genre ON film.id = film_genre.film_id \
+        LEFT JOIN genre ON film_genre.genre_id = genre.id `;
+
+const GROUP = 'GROUP BY film.id';         
+
+const ONE_FILM_QUERY = `${SELECT} WHERE film.id = $1 ${GROUP};`;
+const ALL_FILM_QUERY = `${SELECT} ${GROUP};`;
 
 export async function create(req: IncomingMessage, res: Res) {
     const body = await getReqData(req);
     console.log(`Creating film from ${body}`);
     const { title, year, genres = []} = body;
-    const films = await pool.query('INSERT INTO film (title, year) VALUES ($1, $2) RETURNING *', [title, +year]);
-    const film_id = films.rows[0].id;
+    const film_id = (
+        await pool.query('INSERT INTO film (title, year) VALUES ($1, $2) RETURNING id', [title, year])
+    ).rows[0].id;
     try {
         await createReferenceToGenres(film_id, genres);
     } catch {
@@ -19,14 +30,14 @@ export async function create(req: IncomingMessage, res: Res) {
         res.end('One or more genre.id doesn\'t exist');
         return;
     }
-    const film = films.rows[0];
+    const film = (await pool.query(ONE_FILM_QUERY, [film_id])).rows[0];
     console.log(film);
     res.end(JSON.stringify(film));
 }
 
 export async function getAll(req: IncomingMessage, res: Res) {
     console.log('Get info about all films');
-    const films = await pool.query('SELECT * FROM film');
+    const films = await pool.query(ALL_FILM_QUERY);
     console.log(films.rows);
     res.end(JSON.stringify(films.rows));
 }
@@ -34,7 +45,7 @@ export async function getAll(req: IncomingMessage, res: Res) {
 export async function getOne(req: IncomingMessage, res: Res) {
     const id = (req as Req).id;
     console.log(`Get info about specific film ${id}`);
-    const films = await pool.query('SELECT * FROM film WHERE id = $1', [id]);
+    const films = await pool.query(ONE_FILM_QUERY, [id]);
     const film = films.rows[0];
     console.log(film);
     res.end(JSON.stringify(film));
@@ -58,7 +69,7 @@ export async function updateOne(req: IncomingMessage, res: Res) {
         await pool.query('UPDATE film SET year = $2 WHERE id = $1', [id, year]);
     }
     if (genres !== undefined) {
-        await dropReferenceToGenre(id);
+        await dropReferenceToGenres(id);
         try {
             await createReferenceToGenres(id, genres);
         } catch {
@@ -69,8 +80,7 @@ export async function updateOne(req: IncomingMessage, res: Res) {
             return;
         }
     }
-    const films = await pool.query('SELECT * FROM film WHERE id = $1', [id]);
-    const film = films.rows[0];
+    const film = (await pool.query(ONE_FILM_QUERY, [id])).rows[0];
     console.log(film);
     res.end(JSON.stringify(film));
 }
@@ -78,7 +88,7 @@ export async function updateOne(req: IncomingMessage, res: Res) {
 export async function deleteOne(req: IncomingMessage, res: Res) {
     const id = (req as Req).id;
     console.log(`Deleting film ${id}`);
-    dropReferenceToGenre(id);
+    dropReferenceToGenres(id);
     await pool.query('DELETE FROM film WHERE id = $1', [id]);
     res.end('Deleted');
 }
@@ -89,6 +99,6 @@ async function createReferenceToGenres(film_id: string, genres: string[]) {
     }
 }
 
-async function dropReferenceToGenre(id: string) {
-    await pool.query('DELETE FROM film_genre WHERE genre_id = $1', [id]);
+async function dropReferenceToGenres(id: string) {
+    await pool.query('DELETE FROM film_genre WHERE film_id = $1', [id]);
 }
