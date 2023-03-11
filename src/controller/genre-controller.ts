@@ -46,7 +46,7 @@ export async function updateOne(req: IncomingMessage, res: Res) {
     const body = await getReqData(req);
     console.log(`Updating genre ${id} with ${body}`);
     const { name } = body;
-    await pool.query('UPDATE genre SET name = $2 WHERE id = $1 RETURNING *', [id, name]);
+    await pool.query('UPDATE genre SET name = $2 WHERE id = $1', [id, name]);
     const genre = (await pool.query(ONE_GENRE_QUERY, [id])).rows[0];
     console.log(genre);
     res.end(JSON.stringify(genre));
@@ -55,7 +55,6 @@ export async function updateOne(req: IncomingMessage, res: Res) {
 export async function deleteOne(req: IncomingMessage, res: Res) {
     const id = (req as Req).id;
     console.log(`Deleting genre ${id}`);
-    await pool.query('DELETE FROM film_genre WHERE genre_id = $1', [id]);
     await pool.query('DELETE FROM genre WHERE id = $1', [id]);
     res.end('Deleted');
 }

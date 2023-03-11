@@ -88,7 +88,6 @@ export async function updateOne(req: IncomingMessage, res: Res) {
 export async function deleteOne(req: IncomingMessage, res: Res) {
     const id = (req as Req).id;
     console.log(`Deleting film ${id}`);
-    dropReferenceToGenres(id);
     await pool.query('DELETE FROM film WHERE id = $1', [id]);
     res.end('Deleted');
 }
