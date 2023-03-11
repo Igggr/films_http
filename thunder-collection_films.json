@@ -1,0 +1,174 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "films",
+    "dateExported": "2023-03-11T18:54:35.494Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "7503af58-f93b-49fb-883c-ea8e081efd6b",
+            "colId": "1e851b13-c2d6-4a9f-adfa-fb28bc86e220",
+            "containerId": "",
+            "name": "create genre",
+            "url": "{{host}}/genres",
+            "method": "POST",
+            "sortNum": 5000,
+            "created": "2023-03-11T18:07:40.907Z",
+            "modified": "2023-03-11T18:08:48.105Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"Dramma\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "02965e5b-82b4-41c1-8094-54ef3cc471cd",
+            "colId": "1e851b13-c2d6-4a9f-adfa-fb28bc86e220",
+            "containerId": "",
+            "name": "get all genres",
+            "url": "{{host}}/genres",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2023-03-11T18:07:20.643Z",
+            "modified": "2023-03-11T18:07:20.643Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "6ec56307-674b-4033-b152-32d3342c3ad3",
+            "colId": "1e851b13-c2d6-4a9f-adfa-fb28bc86e220",
+            "containerId": "",
+            "name": "get one genre",
+            "url": "{{host}}/genres/3",
+            "method": "GET",
+            "sortNum": 15000,
+            "created": "2023-03-11T18:08:07.810Z",
+            "modified": "2023-03-11T18:52:35.177Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "60ea613c-ad20-4c0f-8c0b-8492ba7ed798",
+            "colId": "1e851b13-c2d6-4a9f-adfa-fb28bc86e220",
+            "containerId": "",
+            "name": "update one genre",
+            "url": "{{host}}/genres/3",
+            "method": "PATCH",
+            "sortNum": 17500,
+            "created": "2023-03-11T18:08:14.122Z",
+            "modified": "2023-03-11T18:10:06.053Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"Fiction\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "7ec3adf4-19c1-41be-a674-e4bd123a79ac",
+            "colId": "1e851b13-c2d6-4a9f-adfa-fb28bc86e220",
+            "containerId": "",
+            "name": "delete genre",
+            "url": "{{host}}/genres/3",
+            "method": "DELETE",
+            "sortNum": 18750,
+            "created": "2023-03-11T18:07:54.929Z",
+            "modified": "2023-03-11T18:09:10.822Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "9b00f338-b53c-4232-a43f-a2a2f9179171",
+            "colId": "1e851b13-c2d6-4a9f-adfa-fb28bc86e220",
+            "containerId": "",
+            "name": "create film",
+            "url": "{{host}}/films",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2023-03-11T18:07:34.762Z",
+            "modified": "2023-03-11T18:07:34.762Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"title\": \"Matrix 2. Shitty Remake\",\n  \"year\": 2022,\n  \"genres\": [\n    6,7,9\n  ]\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "16393baf-d06c-4d44-a9a2-dbb8288220dc",
+            "colId": "1e851b13-c2d6-4a9f-adfa-fb28bc86e220",
+            "containerId": "",
+            "name": "get all films",
+            "url": "{{host}}/films",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2023-03-11T18:08:34.771Z",
+            "modified": "2023-03-11T18:09:25.290Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "dde28d79-b869-4618-b54b-6aa9baa8db4a",
+            "colId": "1e851b13-c2d6-4a9f-adfa-fb28bc86e220",
+            "containerId": "",
+            "name": "get one film",
+            "url": "{{host}}/films/4",
+            "method": "GET",
+            "sortNum": 40000,
+            "created": "2023-03-11T18:07:47.643Z",
+            "modified": "2023-03-11T18:54:04.458Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "ed0c8f05-e251-4ce5-a2ba-96e4a3fa073d",
+            "colId": "1e851b13-c2d6-4a9f-adfa-fb28bc86e220",
+            "containerId": "",
+            "name": "update one film",
+            "url": "{{host}}/films/16",
+            "method": "PATCH",
+            "sortNum": 60000,
+            "created": "2023-03-11T18:08:00.890Z",
+            "modified": "2023-03-11T18:08:00.890Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"title\": \"Matrix. Gay Brothers\",\n  \"year\": 2020,\n  \"genres\": [5]\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "09c8a96e-8547-4888-8528-8cd851f1b7ea",
+            "colId": "1e851b13-c2d6-4a9f-adfa-fb28bc86e220",
+            "containerId": "",
+            "name": "delete film",
+            "url": "{{host}}/films/3",
+            "method": "DELETE",
+            "sortNum": 100000,
+            "created": "2023-03-11T18:08:29.178Z",
+            "modified": "2023-03-11T18:08:29.178Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        }
+    ],
+    "settings": {
+        "headers": [],
+        "tests": [],
+        "envId": "1b3ac3fd-3ed2-496b-a24e-7369b7e41a57"
+    }
+}
