@@ -2,17 +2,7 @@ import { IncomingMessage } from "http";
 import { Req, Res } from "../frameworks/type-helpers";
 import { getReqData } from "../frameworks/utils";
 import { pool } from "../db";
-
-const SELECT = `\
-    SELECT film.id, film.title, film.year, json_agg(genre.name) AS genres \
-        FROM film \
-        LEFT JOIN film_genre ON film.id = film_genre.film_id \
-        LEFT JOIN genre ON film_genre.genre_id = genre.id `;
-
-const GROUP = 'GROUP BY film.id';         
-
-const ONE_FILM_QUERY = `${SELECT} WHERE film.id = $1 ${GROUP};`;
-const ALL_FILM_QUERY = `${SELECT} ${GROUP};`;
+    
 
 export async function create(req: IncomingMessage, res: Res) {
     const body = await getReqData(req);
@@ -21,6 +11,7 @@ export async function create(req: IncomingMessage, res: Res) {
     const film_id = (
         await pool.query('INSERT INTO film (title, year) VALUES ($1, $2) RETURNING id', [title, year])
     ).rows[0].id;
+    console.log(`insert filn${film_id}`);
     try {
         await createReferenceToGenres(film_id, genres);
     } catch {
@@ -30,14 +21,15 @@ export async function create(req: IncomingMessage, res: Res) {
         res.end('One or more genre.id doesn\'t exist');
         return;
     }
-    const film = (await pool.query(ONE_FILM_QUERY, [film_id])).rows[0];
+    console.log("created...");
+    const film = (await pool.query('SELECT * FROM one_film_info($1)', [film_id])).rows[0];
     console.log(film);
     res.end(JSON.stringify(film));
 }
 
 export async function getAll(req: IncomingMessage, res: Res) {
     console.log('Get info about all films');
-    const films = await pool.query(ALL_FILM_QUERY);
+    const films = await pool.query('SELECT * FROM film_join_genre');
     console.log(films.rows);
     res.end(JSON.stringify(films.rows));
 }
@@ -45,7 +37,7 @@ export async function getAll(req: IncomingMessage, res: Res) {
 export async function getOne(req: IncomingMessage, res: Res) {
     const id = (req as Req).id;
     console.log(`Get info about specific film ${id}`);
-    const films = await pool.query(ONE_FILM_QUERY, [id]);
+    const films = await pool.query('SELECT * FROM one_film_info($1)', [id]);
     const film = films.rows[0];
     console.log(film);
     res.end(JSON.stringify(film));
@@ -80,7 +72,7 @@ export async function updateOne(req: IncomingMessage, res: Res) {
             return;
         }
     }
-    const film = (await pool.query(ONE_FILM_QUERY, [id])).rows[0];
+    const film = (await pool.query('SELECT * FROM one_film_info($1)', [id])).rows[0];
     console.log(film);
     res.end(JSON.stringify(film));
 }
