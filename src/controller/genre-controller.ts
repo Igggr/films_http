@@ -9,10 +9,17 @@ export async function create(req: IncomingMessage, res: Res) {
     console.log(`Creating genre from ${body}`);
     const { name } = body;
     // JOIN-ить с фильмами смысла нет - пока ссылок на этот жанр еще нету
-    const genres = await pool.query('INSERT INTO genre (name) VALUES ($1) RETURNING id', [name]);
-    const genre = genres.rows[0];
-    console.log(genre);
-    res.end(JSON.stringify(genre));
+    try {
+        const genres = await pool.query('INSERT INTO genre (name) VALUES ($1) RETURNING id, name', [name]);
+        const genre = genres.rows[0];
+        console.log(genre);
+        res.end(JSON.stringify(genre));
+    } catch {
+        res.writeHead(422, {
+            'Content-Type': 'application/json'
+        });
+        res.end(`Жанр с названием '${name}' уже существует. Нельзя создавать дубликаты`);
+    }
 }
 
 export async function getAll(req: IncomingMessage, res: Res) {
