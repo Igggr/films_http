@@ -38,8 +38,13 @@ export async function getOne(req: IncomingMessage, res: Res) {
     const id = (req as Req).id;
     console.log(`Get info about specific film ${id}`);
     const films = await pool.query('SELECT * FROM one_film_info($1)', [id]);
+    console.log(films.rows);
     const film = films.rows[0];
     console.log(film);
+    if (film === undefined) {
+        res.writeHead(404, { 'Content-Type': 'application/json' });
+        res.end(`Фильм с id ${id} не существует`);
+    }
     res.end(JSON.stringify(film));
 }
 

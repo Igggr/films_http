@@ -28,6 +28,10 @@ export async function getOne(req: IncomingMessage, res: Res) {
     const genres = await pool.query('SELECT * FROM one_genre_info($1)', [id]);
     const genre = genres.rows[0];
     console.log(genre);
+    if (genre === undefined) {
+        res.writeHead(404, { 'Content-Type': 'application/json' });
+        res.end(`Жанр с id '${id}' не существует`);
+    }
     res.end(JSON.stringify(genre));
 }
 
