@@ -50,6 +50,10 @@ export async function updateOne(req: IncomingMessage, res: Res) {
     await pool.query('UPDATE genre SET name = $2 WHERE id = $1', [id, name]);
     const genre = (await pool.query('SELECT * FROM one_genre_info($1)', [id])).rows[0];
     console.log(genre);
+    if (genre === undefined) {
+        res.writeHead(404, { 'Content-Type': 'application/json' });
+        res.end(`Жанр с id '${id}' не существует`);
+    }
     res.end(JSON.stringify(genre));
 }
 
